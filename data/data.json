@@ -33604,7 +33604,7 @@
       ]
     ],
     "grid": {
-      "logScale": true
+      "logScale": false
     }
   },
   "onchart": [{
