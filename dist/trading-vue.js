@@ -7560,9 +7560,11 @@ var Legendvue_type_template_id_34724886_render = function() {
           "div",
           { staticClass: "t-vue-ind" },
           [
-            _c("span", { staticClass: "t-vue-iname" }, [
-              _vm._v(_vm._s(ind.name))
-            ]),
+            _c(
+              "span",
+              { staticClass: "t-vue-iname", style: { color: ind.color_title } },
+              [_vm._v(_vm._s(ind.name))]
+            ),
             _vm._v(" "),
             _c("button-group", {
               attrs: {
@@ -7961,21 +7963,25 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
       return this.$props.meta_props[id] || {};
     },
     ohlcv: function ohlcv() {
-      if (!this.$props.values || !this.$props.values.ohlcv) {
-        return Array(6).fill('n/a');
-      }
-
-      var prec = this.layout.prec; // TODO: main the main legend more customizable
-
+      // TODO: main the main legend more customizable
       var id = this.main_type + '_0';
       var meta = this.$props.meta_props[id] || {};
 
       if (meta.legend) {
+        if (!this.$props.values || !this.$props.values.ohlcv) {
+          return ['n/a'];
+        }
+
         return (meta.legend(this.$props.values.ohlcv) || []).map(function (x) {
           return x.value;
         });
       }
 
+      if (!this.$props.values || !this.$props.values.ohlcv) {
+        return Array(1).fill('n/a');
+      }
+
+      var prec = this.layout.prec;
       return [this.$props.values.ohlcv[1].toFixed(prec), this.$props.values.ohlcv[2].toFixed(prec), this.$props.values.ohlcv[3].toFixed(prec), this.$props.values.ohlcv[4].toFixed(prec), this.$props.values.ohlcv[5] ? this.$props.values.ohlcv[5].toFixed(2) : 'n/a'];
     },
     // TODO: add support for { grid: { id : N }}
@@ -7990,8 +7996,10 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
       }).map(function (x) {
         if (!(x.type in types)) types[x.type] = 0;
         var id = x.type + "_".concat(types[x.type]++);
+        console.log(x);
         return {
           v: 'display' in x.settings ? x.settings.display : true,
+          color_title: x.settings.color_title,
           name: x.name || id,
           index: (_this.off_data || _this.json_data).indexOf(x),
           id: id,

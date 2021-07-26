@@ -8,10 +8,10 @@
               :style="{ color: common.colors.title }">
               {{ common.title_txt }}
         </span>
-        <span v-if="meta.legend">
-            <span class="t-vue-lspan" v-for="value in ohlcv">{{value}}</span>
+            <span v-if="meta.legend">
+            <span class="t-vue-lspan" v-for="value in ohlcv">{{ value }}</span>
         </span>
-        <span v-else-if="show_values">
+            <span v-else-if="show_values">
             O<span class="t-vue-lspan">{{ ohlcv[0] }}</span>
             H<span class="t-vue-lspan">{{ ohlcv[1] }}</span>
             L<span class="t-vue-lspan">{{ ohlcv[2] }}</span>
@@ -24,7 +24,7 @@
         </span>
         </div>
         <div class="t-vue-ind" v-for="ind in this.indicators">
-            <span class="t-vue-iname">{{ ind.name }}</span>
+            <span :style="{color: ind.color_title}" class="t-vue-iname">{{ ind.name }}</span>
             <button-group
                 v-bind:buttons="common.buttons"
                 v-bind:config="common.config"
@@ -69,17 +69,21 @@ export default {
             return this.$props.meta_props[id] || {}
         },
         ohlcv() {
-            if (!this.$props.values || !this.$props.values.ohlcv) {
-                return Array(6).fill('n/a')
-            }
-            const prec = this.layout.prec
 
             // TODO: main the main legend more customizable
             let id = this.main_type + '_0'
             let meta = this.$props.meta_props[id] || {}
             if (meta.legend) {
+                if (!this.$props.values || !this.$props.values.ohlcv) {
+                    return ['n/a']
+                }
                 return (meta.legend(this.$props.values.ohlcv) || []).map(x => x.value)
             }
+
+            if (!this.$props.values || !this.$props.values.ohlcv) {
+                return Array(1).fill('n/a')
+            }
+            const prec = this.layout.prec
 
             return [
                 this.$props.values.ohlcv[1].toFixed(prec),
@@ -102,8 +106,10 @@ export default {
             ).map(x => {
                 if (!(x.type in types)) types[x.type] = 0
                 const id = x.type + `_${types[x.type]++}`
+                console.log(x)
                 return {
                     v: 'display' in x.settings ? x.settings.display : true,
+                    color_title: x.settings.color_title,
                     name: x.name || id,
                     index: (this.off_data || this.json_data).indexOf(x),
                     id: id,
