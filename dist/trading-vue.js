@@ -7996,7 +7996,6 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
       }).map(function (x) {
         if (!(x.type in types)) types[x.type] = 0;
         var id = x.type + "_".concat(types[x.type]++);
-        console.log(x);
         return {
           v: 'display' in x.settings ? x.settings.display : true,
           color_title: x.settings.color_title,

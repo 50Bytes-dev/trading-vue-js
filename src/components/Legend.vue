@@ -106,7 +106,6 @@ export default {
             ).map(x => {
                 if (!(x.type in types)) types[x.type] = 0
                 const id = x.type + `_${types[x.type]++}`
-                console.log(x)
                 return {
                     v: 'display' in x.settings ? x.settings.display : true,
                     color_title: x.settings.color_title,
