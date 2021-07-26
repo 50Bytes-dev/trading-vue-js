@@ -11,7 +11,20 @@ export default {
     mixins: [Overlay],
     methods: {
         meta_info() {
-            return { author: 'C451', version: '1.1.2' }
+            return {author: 'C451', version: '1.1.2'}
+        },
+        y_range(hi, lo) {
+            let values = this.data.map(x => x[1])
+            let min = Math.min(...values)
+            let max = Math.max(...values)
+            return [max, min]
+        },
+        legend(values) {
+            if (values === undefined) return [{value: 5}]
+            return [{
+                value: values[1], // custom formatter
+                color: 'green'
+            }]
         },
         // Here goes your code. You are provided with:
         // { All stuff is reactive }
@@ -72,11 +85,15 @@ export default {
         // indicator (let's say EMA),
         // just create a new overlay with the same type:
         // e.g. use_for() { return ['EMA'] }.
-        use_for() { return ['Spline', 'EMA', 'SMA'] },
+        use_for() {
+            return ['Spline', 'EMA', 'SMA']
+        },
 
         // Colors for the legend, should have the
         // same dimention as a data point (excl. timestamp)
-        data_colors() { return [this.color] }
+        data_colors() {
+            return [this.color]
+        }
     },
     // Define internal setting & constants here
     computed: {
@@ -101,10 +118,10 @@ export default {
     data() {
         return {
             COLORS:
-            [
-                '#42b28a', '#5691ce', '#612ff9',
-                '#d50b90', '#ff2316'
-            ]
+                [
+                    '#42b28a', '#5691ce', '#612ff9',
+                    '#d50b90', '#ff2316'
+                ]
         }
     }
 

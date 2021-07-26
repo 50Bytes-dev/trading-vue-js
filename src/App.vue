@@ -1,9 +1,10 @@
 <template>
-<trading-vue :data="chart" :width="this.width" :height="this.height"
-        :color-back="colors.colorBack"
-        :color-grid="colors.colorGrid"
-        :color-text="colors.colorText">
-</trading-vue>
+    <trading-vue :data="chart" :width="this.width" :height="this.height"
+                 :chart-config="{customLegend: (values) => [{text: 'Value ', value: values[1].toFixed(2)}]}"
+                 :color-back="colors.colorBack"
+                 :color-grid="colors.colorGrid"
+                 :color-text="colors.colorText">
+    </trading-vue>
 </template>
 
 <script>
@@ -23,6 +24,11 @@ export default {
         }
     },
     mounted() {
+        let data = Data
+        data.chart.data = data.chart.data.map(obj => [obj[0], obj[1]])
+        data.onchart[0].data = data.chart.data.map(obj => [obj[0], obj[1] + 50])
+        this.chart = new DataCube(data)
+
         window.addEventListener('resize', this.onResize)
         window.dc = this.chart
     },
@@ -31,7 +37,7 @@ export default {
     },
     data() {
         return {
-            chart: new DataCube(Data),
+            chart: {},
             width: window.innerWidth,
             height: window.innerHeight,
             colors: {
@@ -40,7 +46,7 @@ export default {
                 colorText: '#333',
             }
         };
-    }
+    },
 };
 </script>
 

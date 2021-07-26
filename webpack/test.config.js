@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WWPlugin = require('./ww_plugin.js')
 const webpack = require('webpack')
 
-global.port = '8080'
+global.port = '8081'
 
 module.exports = {
     entry: './test/index.js',
@@ -43,6 +43,7 @@ module.exports = {
     ],
     devServer: {
         host: '0.0.0.0',
+        port: global.port,
         proxy: {
             '/api/v1/**': {
                 target: 'https://api.binance.com',

@@ -73,6 +73,7 @@ export default {
         this.onResize()
         window.dc = this.chart
         window.tv = this.$refs.tv
+        console.log(this.chart)
     },
     computed: {
         colors() {
@@ -90,7 +91,7 @@ export default {
         return {
             chart: new DataCube({
                 chart: {
-                    tf: '1H',
+                    type: "Spline",
                     data: []
                 },
                 onchart: [{

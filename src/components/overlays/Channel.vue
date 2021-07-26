@@ -107,8 +107,8 @@ export default {
             return p && {
                 x:  layout.t2screen(p[0]),
                 y1: layout.$2screen(p[1]),
-                y2: layout.$2screen(p[2]),
-                y3: layout.$2screen(p[3])
+                y2: layout.$2screen(p[2] || p[1]),
+                y3: layout.$2screen(p[3] || p[1])
             }
         },
         use_for() { return ['Channel', 'KC', 'BB'] },

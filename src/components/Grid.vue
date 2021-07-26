@@ -65,7 +65,6 @@ export default {
         this.renderer = new Grid(el, this)
         this.setup()
         this.$nextTick(() => this.redraw())
-
     },
     render(h) {
         const id = this.$props.grid_id
