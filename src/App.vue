@@ -3,8 +3,8 @@
                  :chart-config="{customLegend: (values) => [{text: 'Value ', value: values[1].toFixed(2)}]}"
                  :color-back="colors.colorBack"
                  :color-grid="colors.colorGrid"
-                 :x-settings="{offmain: true}"
                  :legend-buttons="['display']"
+                 offmain
                  @legend-button-click="on_button_click"
                  :color-text="colors.colorText">
     </trading-vue>

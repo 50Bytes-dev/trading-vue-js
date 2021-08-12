@@ -1,6 +1,10 @@
 {
   "chart": {
     "type": "Spline",
+    "name": "Test3",
+    "settings": {
+      "test": "Test"
+    },
     "data": [
       [
         1543572000000,
@@ -33610,10 +33614,12 @@
   "onchart": [
     {
       "type": "Spline",
+      "name": "Test1",
       "data": []
     },
     {
       "type": "Spline",
+      "name": "Test2",
       "data": []
     }
   ],

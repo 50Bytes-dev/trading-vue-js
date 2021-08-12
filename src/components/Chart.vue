@@ -274,13 +274,14 @@ export default {
             p.data.push({
                 type: this.chart.type || 'Candles',
                 main: true,
-                name: this.title_txt,
+                name: this.chart.name,
                 data: this.sub,
                 i0: this.sub_start,
                 settings: this.chart.settings || this.settings_ohlcv,
                 grid: this.chart.grid || {},
                 last: this.last_candle
             })
+            console.log(p.data)
             p.overlays = this.$props.overlays
             return p
         },
