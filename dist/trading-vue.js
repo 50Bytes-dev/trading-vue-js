@@ -9402,6 +9402,7 @@ var TI = /*#__PURE__*/function () {
       p.data.push({
         type: this.chart.type || 'Candles',
         main: true,
+        name: this.title_txt,
         data: this.sub,
         i0: this.sub_start,
         settings: this.chart.settings || this.settings_ohlcv,
