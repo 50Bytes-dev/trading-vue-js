@@ -1,5 +1,5 @@
 /*!
- * TradingVue.JS - v1.0.2 - Mon Jul 26 2021
+ * TradingVue.JS - v1.0.2 - Fri Aug 13 2021
  *     https://github.com/tvjsx/trading-vue-js
  *     Copyright (c) 2019 C451 Code's All Right;
  *     Licensed under the MIT license
@@ -4092,7 +4092,6 @@ var Mouse = /*#__PURE__*/function () {
   }
 });
 ;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/overlays/Spline.vue?vue&type=script&lang=js&
-
 // Spline renderer. (SMAs, EMAs, TEMAs...
 // you know what I mean)
 // TODO: make a real spline, not a bunch of lines...
@@ -4108,12 +4107,15 @@ var Mouse = /*#__PURE__*/function () {
         version: '1.1.2'
       };
     },
-    y_range: function y_range(hi, lo) {
-      var values = this.data.map(function (x) {
-        return x[1];
+    y_range: function y_range() {
+      var values = [];
+      this.$parent.data.forEach(function (obj) {
+        if (obj.settings.display !== false) obj.data.forEach(function (obj) {
+          if (typeof obj[1] === "number") values.push(obj[1]);
+        });
       });
-      var min = Math.min.apply(Math, _toConsumableArray(values));
-      var max = Math.max.apply(Math, _toConsumableArray(values));
+      var min = Math.min.apply(Math, values);
+      var max = Math.max.apply(Math, values);
       return [max, min];
     },
     legend: function legend(values) {
@@ -7483,7 +7485,7 @@ var Legendvue_type_template_id_34724886_render = function() {
     "div",
     { staticClass: "trading-vue-legend", style: _vm.calc_style },
     [
-      _vm.grid_id === 0
+      _vm.grid_id === 0 && !_vm.common.offmain
         ? _c(
             "div",
             {
@@ -7574,7 +7576,8 @@ var Legendvue_type_template_id_34724886_render = function() {
                 grid_id: _vm.grid_id,
                 index: ind.index,
                 tv_id: _vm.common.tv_id,
-                display: ind.v
+                display: ind.v,
+                main: ind.main
               },
               on: { "legend-button-click": _vm.button_click }
             }),
@@ -7652,7 +7655,8 @@ var ButtonGroupvue_type_template_id_6f826426_render = function() {
           index: _vm.index,
           display: _vm.display,
           icon: b.icon,
-          config: _vm.config
+          config: _vm.config,
+          main: _vm.main
         },
         on: { "legend-button-click": _vm.button_click }
       })
@@ -7701,7 +7705,7 @@ LegendButtonvue_type_template_id_1ad87362_render._withStripped = true
 
 /* harmony default export */ const LegendButtonvue_type_script_lang_js_ = ({
   name: 'LegendButton',
-  props: ['id', 'tv_id', 'grid_id', 'ov_id', 'index', 'display', 'icon', 'config'],
+  props: ['id', 'tv_id', 'grid_id', 'ov_id', 'index', 'display', 'icon', 'config', 'main'],
   mounted: function mounted() {},
   computed: {
     base64: function base64() {
@@ -7723,6 +7727,7 @@ LegendButtonvue_type_template_id_1ad87362_render._withStripped = true
       return "".concat(tv, "-btn-g").concat(gr, "-").concat(ov);
     },
     data_type: function data_type() {
+      if (this.$props.main) return "chart";
       return this.$props.grid_id === 0 ? "onchart" : "offchart";
     },
     data_index: function data_index() {
@@ -7789,10 +7794,11 @@ LegendButton_component.options.__file = "src/components/LegendButton.vue"
 //
 //
 //
+//
 
 /* harmony default export */ const ButtonGroupvue_type_script_lang_js_ = ({
   name: 'ButtonGroup',
-  props: ['buttons', 'tv_id', 'ov_id', 'grid_id', 'index', 'display', 'config'],
+  props: ['buttons', 'tv_id', 'ov_id', 'grid_id', 'index', 'display', 'config', "main"],
   components: {
     LegendButton: LegendButton
   },
@@ -7948,6 +7954,7 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
 //
 //
 //
+//
 
 
 /* harmony default export */ const Legendvue_type_script_lang_js_ = ({
@@ -7992,7 +7999,7 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
       var f = this.format;
       var types = {};
       return this.json_data.filter(function (x) {
-        return x.settings.legend !== false && !x.main;
+        return x.settings.legend !== false && (!x.main || _this.common.offmain);
       }).map(function (x) {
         if (!(x.type in types)) types[x.type] = 0;
         var id = x.type + "_".concat(types[x.type]++);
@@ -8004,7 +8011,8 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
           id: id,
           values: values ? f(id, values) : _this.n_a(1),
           unk: !(id in (_this.$props.meta_props || {})),
-          loading: x.loading
+          loading: x.loading,
+          main: x.main
         };
       });
     },
@@ -9149,7 +9157,7 @@ var TI = /*#__PURE__*/function () {
 
 /* harmony default export */ const Chartvue_type_script_lang_js_ = ({
   name: 'Chart',
-  props: ['title_txt', 'data', 'width', 'height', 'font', 'colors', 'overlays', 'tv_id', 'config', 'buttons', 'toolbar', 'ib', 'skin', 'timezone'],
+  props: ['title_txt', 'data', 'width', 'height', 'font', 'colors', 'overlays', 'tv_id', 'config', 'buttons', 'toolbar', 'ib', 'skin', 'timezone', 'offmain'],
   mixins: [shaders, datatrack],
   components: {
     GridSection: Section,
@@ -9276,7 +9284,8 @@ var TI = /*#__PURE__*/function () {
         config: this.$props.config,
         buttons: this.$props.buttons,
         meta: this.meta,
-        skin: this.$props.skin
+        skin: this.$props.skin,
+        offmain: this.$props.offmain
       };
     },
     overlay_subset: function overlay_subset(source, side) {
@@ -10769,7 +10778,8 @@ function TradingVuevue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len 
     timezone: {
       type: Number,
       "default": 0
-    }
+    },
+    offmain: Boolean
   },
   computed: {
     // Copy a subset of TradingVue props
@@ -10787,7 +10797,8 @@ function TradingVuevue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len 
         ib: this.$props.indexBased || this.index_based || false,
         colors: Object.assign({}, this.$props.colors || this.colorpack),
         skin: this.skin_proto,
-        timezone: this.$props.timezone
+        timezone: this.$props.timezone,
+        offmain: this.$props.offmain
       };
       this.parse_colors(chart_props.colors);
       return chart_props;
@@ -13733,7 +13744,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(645);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Anit-boostrap tactix */\n.trading-vue *, ::after, ::before {\n    box-sizing: content-box;\n}\n.trading-vue img {\n    vertical-align: initial;\n}\n", ""]);
+exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Anit-boostrap tactix */\n.trading-vue *, ::after, ::before {\n    box-sizing: content-box;\n}\n.trading-vue img {\n    vertical-align: initial;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

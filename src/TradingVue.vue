@@ -182,7 +182,8 @@ export default {
         timezone: {
             type: Number,
             default: 0
-        }
+        },
+        offmain: Boolean
     },
     computed: {
         // Copy a subset of TradingVue props
@@ -202,7 +203,8 @@ export default {
                 colors: Object.assign({}, this.$props.colors ||
                     this.colorpack),
                 skin: this.skin_proto,
-                timezone: this.$props.timezone
+                timezone: this.$props.timezone,
+                offmain: this.$props.offmain
             }
 
             this.parse_colors(chart_props.colors)

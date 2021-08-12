@@ -13,8 +13,13 @@ export default {
         meta_info() {
             return {author: 'C451', version: '1.1.2'}
         },
-        y_range(hi, lo) {
-            let values = this.data.map(x => x[1])
+        y_range() {
+            let values = []
+            this.$parent.data.forEach(obj => {
+                if (obj.settings.display !== false) obj.data.forEach(obj => {
+                    if (typeof (obj[1]) === "number") values.push(obj[1])
+                })
+            })
             let min = Math.min(...values)
             let max = Math.max(...values)
             return [max, min]

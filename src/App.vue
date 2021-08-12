@@ -3,6 +3,9 @@
                  :chart-config="{customLegend: (values) => [{text: 'Value ', value: values[1].toFixed(2)}]}"
                  :color-back="colors.colorBack"
                  :color-grid="colors.colorGrid"
+                 :x-settings="{offmain: true}"
+                 :legend-buttons="['display']"
+                 @legend-button-click="on_button_click"
                  :color-text="colors.colorText">
     </trading-vue>
 </template>
@@ -18,6 +21,21 @@ export default {
         TradingVue
     },
     methods: {
+        on_button_click(event) {
+            if (event.button === 'display') {
+                let d = event.type === 'chart' ? this.chart.data[event.type] : this.chart.data[event.type][event.dataIndex]
+                if (d) {
+                    if (!('display' in d.settings)) {
+                        this.$set(
+                            d.settings, 'display', true
+                        )
+                    }
+                    this.$set(
+                        d.settings, 'display', !d.settings.display
+                    )
+                }
+            }
+        },
         onResize() {
             this.width = window.innerWidth
             this.height = window.innerHeight
@@ -27,6 +45,7 @@ export default {
         let data = Data
         data.chart.data = data.chart.data.map(obj => [obj[0], obj[1]])
         data.onchart[0].data = data.chart.data.map(obj => [obj[0], obj[1] + 50])
+        data.onchart[1].data = data.chart.data.map(obj => [obj[0], obj[1] + 1550])
         this.chart = new DataCube(data)
 
         window.addEventListener('resize', this.onResize)

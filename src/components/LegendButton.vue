@@ -14,7 +14,7 @@ import Icons from '../stuff/icons.json'
 export default {
     name: 'LegendButton',
     props: ['id', 'tv_id', 'grid_id', 'ov_id', 'index', 'display',
-            'icon', 'config'],
+            'icon', 'config', 'main'],
     mounted() {
     },
     computed: {
@@ -35,6 +35,7 @@ export default {
             return `${tv}-btn-g${gr}-${ov}`
         },
         data_type() {
+            if (this.$props.main) return "chart"
             return this.$props.grid_id === 0 ?
                 "onchart" : "offchart"
         },

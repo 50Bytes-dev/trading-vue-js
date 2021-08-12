@@ -10,6 +10,7 @@
         :display="display"
         :icon="b.icon"
         :config="config"
+        :main="main"
         v-on:legend-button-click="button_click"
     >
     </legend-button>
@@ -23,7 +24,7 @@ export default {
     name: 'ButtonGroup',
     props: [
         'buttons', 'tv_id', 'ov_id', 'grid_id', 'index',
-        'display', 'config'
+        'display', 'config' ,"main"
     ],
     components: {
         LegendButton

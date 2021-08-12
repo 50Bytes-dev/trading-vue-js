@@ -41,7 +41,6 @@ export default {
                     )
                 }
             }
-            console.log(event)
         }
     },
     mounted() {

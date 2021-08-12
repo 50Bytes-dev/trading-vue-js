@@ -33607,10 +33607,16 @@
       "logScale": false
     }
   },
-  "onchart": [{
-    "type": "Spline",
-    "data": []
-  }],
+  "onchart": [
+    {
+      "type": "Spline",
+      "data": []
+    },
+    {
+      "type": "Spline",
+      "data": []
+    }
+  ],
   "tools": [
     {
       "type": "Cursor",

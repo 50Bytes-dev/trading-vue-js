@@ -1,7 +1,7 @@
 <template>
     <div class="trading-vue-legend"
          v-bind:style="calc_style">
-        <div v-if="grid_id === 0"
+        <div v-if="grid_id === 0 && !common.offmain"
              class="trading-vue-ohlcv"
              :style="{ 'max-width': common.width + 'px' }">
         <span class="t-vue-title"
@@ -33,6 +33,7 @@
                 v-bind:index="ind.index"
                 v-bind:tv_id="common.tv_id"
                 v-bind:display="ind.v"
+                v-bind:main="ind.main"
                 v-on:legend-button-click="button_click">
             </button-group>
             <span class="t-vue-ivalues" v-if="ind.v">
@@ -102,7 +103,7 @@ export default {
             var types = {}
 
             return this.json_data.filter(
-                x => x.settings.legend !== false && !x.main
+                x => x.settings.legend !== false && (!x.main || this.common.offmain)
             ).map(x => {
                 if (!(x.type in types)) types[x.type] = 0
                 const id = x.type + `_${types[x.type]++}`
@@ -114,7 +115,8 @@ export default {
                     id: id,
                     values: values ? f(id, values) : this.n_a(1),
                     unk: !(id in (this.$props.meta_props || {})),
-                    loading: x.loading
+                    loading: x.loading,
+                    main: x.main
                 }
             })
         },

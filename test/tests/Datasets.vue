@@ -118,7 +118,7 @@ export default {
             overlays: [DatasetCalc],
             extensions: [Alps],
             wk: 1,
-            tfs: {'5m': {}, '15m': {}, '1H': {}},
+            tfs: {'5m': {}, '15m': {}, '1H': {}, '1d': {}},
             dss: ['1m', 'hf'],
             icon: Icon
         }
