@@ -9409,7 +9409,6 @@ var TI = /*#__PURE__*/function () {
         grid: this.chart.grid || {},
         last: this.last_candle
       });
-      console.log(p.data);
       p.overlays = this.$props.overlays;
       return p;
     },

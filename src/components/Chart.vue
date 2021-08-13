@@ -281,7 +281,6 @@ export default {
                 grid: this.chart.grid || {},
                 last: this.last_candle
             })
-            console.log(p.data)
             p.overlays = this.$props.overlays
             return p
         },
