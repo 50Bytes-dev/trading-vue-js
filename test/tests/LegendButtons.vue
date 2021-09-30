@@ -28,6 +28,7 @@ export default {
             this.height = window.innerHeight - 50
         },
         on_button_click(event) {
+            console.log(event)
             if (event.button === 'display') {
                 let d = this.chart[event.type][event.dataIndex]
                 if (d) {
