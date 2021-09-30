@@ -55,6 +55,7 @@ export default {
             this.chart.merge('Calculations.settings', { k: this.wk })
         },
         on_selected(tf) {
+            console.log(this.chart)
             this.chart.set('chart.tf', tf.name)
         },
         ondsclick(ds) {

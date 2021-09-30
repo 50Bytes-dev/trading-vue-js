@@ -44,8 +44,9 @@ export default {
         }
     },
     methods: {
-        onclick() {
+        onclick(event) {
             this.$emit('legend-button-click', {
+                ...event,
                 button: this.$props.id,
                 type: this.data_type,
                 dataIndex: this.data_index,

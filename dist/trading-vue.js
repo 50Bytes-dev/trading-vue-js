@@ -1,5 +1,5 @@
 /*!
- * TradingVue.JS - v1.0.2 - Tue Sep 14 2021
+ * TradingVue.JS - v1.0.2 - Thu Sep 30 2021
  *     https://github.com/tvjsx/trading-vue-js
  *     Copyright (c) 2019 C451 Code's All Right;
  *     Licensed under the MIT license
@@ -7693,6 +7693,12 @@ LegendButtonvue_type_template_id_1ad87362_render._withStripped = true
 ;// CONCATENATED MODULE: ./src/components/LegendButton.vue?vue&type=template&id=1ad87362&
 
 ;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/LegendButton.vue?vue&type=script&lang=js&
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 //
 //
 //
@@ -7735,14 +7741,14 @@ LegendButtonvue_type_template_id_1ad87362_render._withStripped = true
     }
   },
   methods: {
-    onclick: function onclick() {
-      this.$emit('legend-button-click', {
+    onclick: function onclick(event) {
+      this.$emit('legend-button-click', _objectSpread(_objectSpread({}, event), {}, {
         button: this.$props.id,
         type: this.data_type,
         dataIndex: this.data_index,
         grid: this.$props.grid_id,
         overlay: this.$props.ov_id
-      });
+      }));
     }
   }
 });
