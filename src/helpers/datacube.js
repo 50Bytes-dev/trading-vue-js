@@ -48,6 +48,20 @@ export default class DataCube extends DCCore {
         return overlay.id
     }
 
+    // Unshift new overlay
+    unshift(side, overlay) {
+
+        if (side !== 'onchart' && side !== 'offchart' &&
+            side !== 'datasets') {
+            return
+        }
+
+        this.data[side].unshift(overlay)
+        this.update_ids()
+
+        return overlay.id
+    }
+
     // Get all objects matching the query
     get(query) {
         return this.get_by_query(query).map(x => x.v)

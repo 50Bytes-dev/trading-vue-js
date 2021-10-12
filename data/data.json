@@ -3,6 +3,7 @@
     "type": "Spline",
     "name": "Test3",
     "settings": {
+      "buttons": ["settings"],
       "test": "Test"
     },
     "data": [

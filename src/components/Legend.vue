@@ -26,7 +26,7 @@
         <div class="t-vue-ind" v-for="ind in this.indicators">
             <span :style="{color: ind.color_title}" class="t-vue-iname">{{ ind.name }}</span>
             <button-group
-                v-bind:buttons="common.buttons"
+                v-bind:buttons="[...common.buttons, ...ind.buttons]"
                 v-bind:config="common.config"
                 v-bind:ov_id="ind.id"
                 v-bind:grid_id="grid_id"
@@ -116,7 +116,8 @@ export default {
                     values: values ? f(id, values) : this.n_a(1),
                     unk: !(id in (this.$props.meta_props || {})),
                     loading: x.loading,
-                    main: x.main
+                    main: x.main,
+                    buttons: x.settings.buttons || [],
                 }
             })
         },

@@ -1,5 +1,5 @@
 /*!
- * TradingVue.JS - v1.0.2 - Thu Sep 30 2021
+ * TradingVue.JS - v1.0.2 - Tue Oct 12 2021
  *     https://github.com/tvjsx/trading-vue-js
  *     Copyright (c) 2019 C451 Code's All Right;
  *     Licensed under the MIT license
@@ -7570,7 +7570,7 @@ var Legendvue_type_template_id_34724886_render = function() {
             _vm._v(" "),
             _c("button-group", {
               attrs: {
-                buttons: _vm.common.buttons,
+                buttons: _vm.common.buttons.concat(ind.buttons),
                 config: _vm.common.config,
                 ov_id: ind.id,
                 grid_id: _vm.grid_id,
@@ -8013,7 +8013,8 @@ Spinner_component.options.__file = "src/components/Spinner.vue"
           values: values ? f(id, values) : _this.n_a(1),
           unk: !(id in (_this.$props.meta_props || {})),
           loading: x.loading,
-          main: x.main
+          main: x.main,
+          buttons: x.settings.buttons || []
         };
       });
     },
@@ -13447,6 +13448,18 @@ var DataCube = /*#__PURE__*/function (_DCCore) {
       }
 
       this.data[side].push(overlay);
+      this.update_ids();
+      return overlay.id;
+    } // Unshift new overlay
+
+  }, {
+    key: "unshift",
+    value: function unshift(side, overlay) {
+      if (side !== 'onchart' && side !== 'offchart' && side !== 'datasets') {
+        return;
+      }
+
+      this.data[side].unshift(overlay);
       this.update_ids();
       return overlay.id;
     } // Get all objects matching the query
